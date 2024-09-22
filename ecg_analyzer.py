@@ -41,7 +41,7 @@ def detect_black_curve(image):
 
 # Function to calculate the area under the curve using Simpson's rule
 def calculate_area(x, y):
-    return integrate.simps(y, x)
+    return integrate.simpson(y, x)
 
 # Streamlit Web App Interface
 st.title('Interactive ECG Curve Analyzer')
