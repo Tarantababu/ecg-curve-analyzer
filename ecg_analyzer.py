@@ -25,17 +25,34 @@ uploaded_file = st.file_uploader("Choose an ECG image file", type=["jpg", "png",
 
 if uploaded_file is not None:
     image = load_image(uploaded_file)
-    st.image(image, caption='Uploaded ECG Image', use_column_width=True)
+    
+    # Create an interactive image with Plotly
+    fig = go.Figure(go.Image(z=image))
+    
+    fig.update_layout(
+        title="Original ECG Image (Hover to see coordinates)",
+        width=800,
+        height=600,
+    )
+
+    # Add hover information
+    fig.update_traces(
+        hoverinfo="x+y",
+        hovertemplate="X: %{x}<br>Y: %{y}"
+    )
+
+    # Display the interactive image
+    st.plotly_chart(fig)
 
     col1, col2 = st.columns(2)
 
     with col1:
-        x1 = st.number_input("X coordinate", value=100, min_value=0)
-        y1 = st.number_input("Y coordinate", value=100, min_value=0)
+        x1 = st.number_input("X coordinate", value=100, min_value=0, max_value=image.shape[1]-1)
+        y1 = st.number_input("Y coordinate", value=100, min_value=0, max_value=image.shape[0]-1)
 
     with col2:
-        width = st.number_input("Width", value=200, min_value=1)
-        height = st.number_input("Height", value=150, min_value=1)
+        width = st.number_input("Width", value=200, min_value=1, max_value=image.shape[1]-x1)
+        height = st.number_input("Height", value=150, min_value=1, max_value=image.shape[0]-y1)
 
     if st.button('Analyze ECG Curve'):
         cropped_image = image[int(y1):int(y1 + height), int(x1):int(x1 + width)]
