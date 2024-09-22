@@ -11,11 +11,16 @@ def load_image(file_path):
 # Function to detect black curve in the image
 def detect_black_curve(image):
     image = np.array(image)
+    
+    if image.ndim == 3 and image.shape[2] == 4:  # Check if the image has 4 channels (RGBA)
+        image = Image.fromarray(image).convert('RGB')  # Convert RGBA to RGB
+        image = np.array(image)  # Convert back to numpy array
+
     if image.ndim == 3:
         # Convert to HSV color space
         hsv = color.rgb2hsv(image)
         # Create a mask for black color
-        black_mask = (hsv[:,:,2] < 0.2)  # Value channel < 0.2 for detecting dark/black pixels
+        black_mask = (hsv[:, :, 2] < 0.2)  # Value channel < 0.2 for detecting dark/black pixels
         # Detect y-positions of the curve (the first black pixel in each column)
         y_positions = np.argmax(black_mask, axis=0)
         return y_positions
