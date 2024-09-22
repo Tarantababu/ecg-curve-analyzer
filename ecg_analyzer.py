@@ -40,7 +40,7 @@ def detect_black_curve(image):
     return binary.shape[0] - y_positions
 
 def calculate_area(x, y):
-    return integrate.simpson(y, x)
+    return integrate.simpson(y=y, x=x)
 
 st.title('Interactive ECG Curve Analyzer')
 
