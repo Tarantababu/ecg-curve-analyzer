@@ -4,3 +4,5 @@ plotly
 Pillow
 scipy
 scikit-image
+scipy>=1.4.0
+
