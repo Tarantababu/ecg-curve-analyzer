@@ -1,7 +1,7 @@
 import numpy as np
 import streamlit as st
 import plotly.express as px
-from PIL import Image, ImageDraw
+from PIL import Image
 from scipy import integrate
 from skimage import color
 
@@ -18,11 +18,16 @@ def crop_image(image, bbox):
 def detect_black_curve(image):
     print("Detecting black curve...")
     image = np.array(image)
+
+    # Convert RGBA to RGB if necessary
+    if image.shape[2] == 4:  # RGBA
+        image = image[:, :, :3]  # Discard the alpha channel
+
     if image.ndim == 3:
         # Convert to HSV color space
         hsv = color.rgb2hsv(image)
         # Create a mask for black color
-        black_mask = (hsv[:,:,2] < 0.2)  # Value channel < 0.2
+        black_mask = (hsv[:, :, 2] < 0.2)  # Value channel < 0.2
     else:
         # If it's already grayscale, use a simple threshold
         black_mask = image < 0.2
