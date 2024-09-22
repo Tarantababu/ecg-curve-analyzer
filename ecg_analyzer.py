@@ -27,12 +27,18 @@ if uploaded_file is not None:
     image = load_image(uploaded_file)
     
     # Create an interactive image with Plotly
-    fig = go.Figure(go.Image(z=image))
+    fig = go.Figure(go.Heatmap(
+        z=image,
+        colorscale='gray',
+        showscale=False,
+    ))
     
     fig.update_layout(
         title="Original ECG Image (Hover to see coordinates)",
         width=800,
         height=600,
+        xaxis=dict(scaleanchor="y", constrain="domain"),
+        yaxis=dict(scaleanchor="x", constrain="domain", autorange="reversed"),
     )
 
     # Add hover information
