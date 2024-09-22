@@ -1,0 +1,6 @@
+numpy
+streamlit
+plotly
+Pillow
+scipy
+scikit-image
