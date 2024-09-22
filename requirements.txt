@@ -5,3 +5,4 @@ Pillow
 scipy
 scikit-image
 matplotlib
+scipy>=1.7.0
